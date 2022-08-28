@@ -44,7 +44,7 @@ export const StyledSubHeader = styled.p`
 export const StyledUserTab = styled.div`
     width: 130px;
     height: 130px;
-    padding: 10px 15px;
+    padding: 20px 20px 10px 20px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -62,5 +62,6 @@ export const StyledUserTab = styled.div`
     & .tabHeading {
         font-size: 14px;
         font-weight: 600;
+        margin-bottom: 0;
     }
 `

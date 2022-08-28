@@ -17,6 +17,7 @@ const Main = ({currentPageIndex, allPagesData}) => {
     return (
         <div className="main-component">
             {/* Title component */}
+            <h1 className="title">Eden</h1>
             {/* Stepper component */}
             {Object.keys(pageData).length>0 && <Stepper pageIndex={currentPageToShow} pageData={pageData}/>}
             {/* Card component */}

@@ -25,7 +25,7 @@ const initialState = {
         },
         {
             pageId: 1,
-            heading: "Let's set up a home fo all your work",
+            heading: "Let's set up a home for all your work",
             subHeading: 'You can always create another workspace later.',
             inputData: [
                 {
@@ -54,11 +54,13 @@ const initialState = {
             tabsData: [
                 {
                     tabHeading: 'For myself',
-                    tabContent: 'Write better. Think more clearly. Stay organized.'
+                    tabContent: 'Write better. Think more clearly. Stay organized.',
+                    id: 0,
                 },
                 {
                     tabHeading: 'With my team',
-                    tabContent: 'Wikis, docs, tasks & projects, all in one place'
+                    tabContent: 'Wikis, docs, tasks & projects, all in one place',
+                    id: 1,
                 }
             ],
         },

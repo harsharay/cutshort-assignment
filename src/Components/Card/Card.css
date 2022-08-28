@@ -32,3 +32,25 @@
     justify-content: center;
     align-items: center;
 }
+
+@media only screen and (max-width: 600px) {
+    .card-root {
+       width: 100%;
+    }
+
+    .card-input {
+        width: auto;
+    }
+
+    .card-field {
+        width: 300px !important;
+    }
+
+    .submit-button {
+        width: 300px !important
+    }
+
+    .single-tab {
+        width: 40% !important;
+    }
+}

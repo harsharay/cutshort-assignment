@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {connect} from 'react-redux';
 import { StyledInput, StyledLabel, StyledButton, StyledCardHeader, StyledSubHeader, StyledUserTab } from '../../StyledComponents/styledComponents';
-import {FaCheck} from 'react-icons/fa'
+import {FaCheck, FaUser, FaUsers} from 'react-icons/fa'
 import "./Card.css"
 
 const Card = ({data, pageIndex, changeCurrentPageToShow, addInputDataToRedux, allPagesInputData, addSingleCardData, allData}) => {
@@ -102,6 +102,7 @@ const Card = ({data, pageIndex, changeCurrentPageToShow, addInputDataToRedux, al
                                 required={input.mandatory}
                                 value={formData[input.name]}
                                 onChange={handleFormInputChange}
+                                className="card-field"
                             />
                         </div>
                     )
@@ -110,14 +111,15 @@ const Card = ({data, pageIndex, changeCurrentPageToShow, addInputDataToRedux, al
                 {tabsData && <div className='flex-row-sb-c'>
                     {tabsData.length > 0 && tabsData.map((tab, index) => {
                         return (
-                            <StyledUserTab onClick={() => handleUserTabClick(tab, index)} className={selectedTabIndex === index ? 'selected-tab' : 'unselected-tab'}>
+                            <StyledUserTab onClick={() => handleUserTabClick(tab, index)} className={`single-tab ${selectedTabIndex === index ? 'selected-tab' : 'unselected-tab'}`}>
+                                {tab.id === 1 ? <FaUsers /> : <FaUser />}
                                 <p className='tabHeading'>{tab.tabHeading}</p>
                                 <p>{tab.tabContent}</p>
                             </StyledUserTab>
                         )
                     })}
                 </div>}
-                {buttonText && <StyledButton onClick={handleButtonClick}>{buttonText}</StyledButton>}
+                {buttonText && <StyledButton onClick={handleButtonClick} className="submit-button">{buttonText}</StyledButton>}
             </div>
         </div>
     )
