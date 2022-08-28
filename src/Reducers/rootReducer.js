@@ -24,6 +24,7 @@ const initialState = {
                 },
             ],
             buttonText: 'Create Workspace',
+            type: 'form'
         },
         {
             pageId: 1,
@@ -48,6 +49,7 @@ const initialState = {
                 },
             ],
             buttonText: 'Create Workspace',
+            type: 'form'
         },
         {
             pageId: 2,
@@ -67,6 +69,7 @@ const initialState = {
                     id: 1,
                 }
             ],
+            type: 'nonForm'
         },
         {
             pageId: 3,
@@ -75,6 +78,7 @@ const initialState = {
             inputData: [],
             buttonText: 'Launch Eden',
             success: true,
+            type: 'nonForm'
         },
     ],
     allPagesInputData: {},
