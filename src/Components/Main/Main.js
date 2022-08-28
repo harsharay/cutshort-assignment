@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import {connect} from 'react-redux'
 import Card from '../Card/Card'
+import Stepper from '../Stepper/Stepper'
 import './Main.css'
 
 const Main = ({currentPageIndex, allPagesData}) => {
@@ -16,11 +17,13 @@ const Main = ({currentPageIndex, allPagesData}) => {
     return (
         <div className="main-component">
             {/* Title component */}
+            <h1 className="title">Eden</h1>
             {/* Stepper component */}
+            {Object.keys(pageData).length>0 && <Stepper pageIndex={currentPageToShow} pageData={pageData}/>}
             {/* Card component */}
             {/* {pageData && pageData.length > 0 && pageData.map((page, index) => { */}
                 {/* return  */}
-                {pageData && <Card data={pageData[currentPageToShow]} pageIndex={currentPageToShow}/>}
+                {Object.keys(pageData).length > 0 && <Card data={pageData[currentPageToShow]} pageIndex={currentPageToShow} allData={pageData}/>}
             {/* })} */}
         </div>
     )

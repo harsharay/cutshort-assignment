@@ -16,6 +16,11 @@ export const StyledLabel = styled.label`
     width: fit-content;
     margin-bottom: 10px;
     font-size: 14px;
+
+    & span {
+        color: #b8c2d6;
+        margin-left: 5px;
+    }
 `
 
 export const StyledButton = styled.button`
@@ -33,9 +38,35 @@ export const StyledButton = styled.button`
 
 export const StyledCardHeader = styled.h1`
     color: #151b28; 
+    margin-bottom: 0;
 `
 
 export const StyledSubHeader = styled.p`
     font-size: 16px;
     color: #707c93;
+`
+
+export const StyledUserTab = styled.div`
+    width: 130px;
+    height: 130px;
+    padding: 20px 20px 10px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: space-between;
+    text-align: left;
+    border-radius: 5px;
+    margin: 0 20px;
+    cursor: pointer;
+
+    & p {
+        font-size: 12px;
+        font-weight: 200;
+    }
+
+    & .tabHeading {
+        font-size: 14px;
+        font-weight: 600;
+        margin-bottom: 0;
+    }
 `
