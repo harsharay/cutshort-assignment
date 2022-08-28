@@ -73,7 +73,7 @@ const initialState = {
         },
         {
             pageId: 3,
-            heading: "Congratulations, Eren!",
+            heading: "Congratulations,",
             subHeading: 'You have completed the onboarding, you can start using Eden!',
             inputData: [],
             buttonText: 'Launch Eden',
@@ -82,6 +82,7 @@ const initialState = {
         },
     ],
     allPagesInputData: {},
+    userData: {}
 }
 
 
@@ -111,6 +112,12 @@ export const RootReducer = (state=initialState, action) => {
         return {
             ...state,
             currentPageIndex: action.payload
+        }
+    }
+    if(action.type === 'ADD_USER_DATA') {
+        return {
+            ...state,
+            userData: {...state.userData, ...action.payload}
         }
     }
 

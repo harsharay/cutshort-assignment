@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import {connect} from 'react-redux';
-import { StyledInput, StyledLabel, StyledButton, StyledCardHeader, StyledSubHeader, StyledUserTab } from '../../StyledComponents/styledComponents';
-import {FaCheck, FaUser, FaUsers} from 'react-icons/fa'
+import { StyledButton, StyledCardHeader, StyledSubHeader, } from '../../StyledComponents/styledComponents';
+import {FaCheck} from 'react-icons/fa'
 import "./Card.css"
+import InputForms from '../InputForms/InputForms';
+import Tabs from '../Tabs/Tabs';
 
-const Card = ({data, pageIndex, changeCurrentPageToShow, addInputDataToRedux, allPagesInputData, addSingleCardData, allData}) => {
-
-    const SELECTED_BLUE = '#664de5'
+const Card = ({data, pageIndex, changeCurrentPageToShow, addInputDataToRedux, allPagesInputData, addSingleCardData, allData, addUserData, userData}) => {
 
     const {heading, subHeading, inputData, buttonText, tabsData, success, type} = data;
     const [formData, setFormData] = useState({});
@@ -40,6 +40,12 @@ const Card = ({data, pageIndex, changeCurrentPageToShow, addInputDataToRedux, al
                 setFormData(finalObject)
         }
     }, [pageIndex, allPagesInputData])
+
+    useEffect(() => {
+        if(tabsData && tabsData.length > 0) {
+            handleUserTabClick(0);
+        }
+    },[tabsData])
 
     const handleFormInputChange = (e) => {
         const localAllInputData = JSON.parse(JSON.stringify(allPagesInputData))
@@ -78,24 +84,23 @@ const Card = ({data, pageIndex, changeCurrentPageToShow, addInputDataToRedux, al
             alert("Success, onboarded")
             return null;
         }
+        addUserData(formData);
         changeCurrentPageToShow();
     }
 
-    const handleUserTabClick = (tab, index) => {
+    const handleUserTabClick = index => {
         const cardName = `card${pageIndex}`
         setSelectedTabIndex(index);
-        setSelectedTab(tab);
-        addInputDataToRedux({[cardName]: {
-            tabIndex: index,
-            tabData: {...tab}
-        }});
+        const allTabData = JSON.parse(JSON.stringify(tabsData))
+        setSelectedTab(allTabData[index]);
+        addInputDataToRedux({[cardName]: allTabData[index]});
     }
 
     return (
         <div className="card-root">
             {type !== 'form' && <>{success && <div className='success'><FaCheck/></div>}</>}
             {/* Heading  */}
-            {heading && <StyledCardHeader>{heading}</StyledCardHeader>}
+            {heading && <StyledCardHeader>{heading} {success && <span>{userData.displayName}!</span>}</StyledCardHeader>}
             {/* Sub heading */}
             {subHeading && <StyledSubHeader>{subHeading}</StyledSubHeader>}
             {/* Input */}
@@ -104,22 +109,7 @@ const Card = ({data, pageIndex, changeCurrentPageToShow, addInputDataToRedux, al
                     <>
                         {inputData && inputData.length > 0 && inputData.map((input, index) => {
                             return (
-                                <div style={{width:'fit-content', marginTop: '20px',}} key={index}>
-                                    <StyledLabel htmlFor={input.name}>{input.label}{!input.mandatory && <span>(optional)</span>}</StyledLabel>
-                                    <div className='input-and-prefix'>
-                                        {input.prefixText && <span className='prefix'>{input.prefixText}</span>}
-                                        <StyledInput 
-                                            type={input.type}
-                                            name={input.name}
-                                            id={input.name}
-                                            placeholder={input.placeholder}
-                                            required={input.mandatory}
-                                            value={formData[input.name]}
-                                            onChange={handleFormInputChange}
-                                            className="card-field"
-                                        />
-                                    </div>
-                                </div>
+                                <InputForms inputData={inputData} input={input} index={index} formData={formData} handleFormInputChange={handleFormInputChange} key={index}/>
                             )
                         })}
                     </>
@@ -130,11 +120,7 @@ const Card = ({data, pageIndex, changeCurrentPageToShow, addInputDataToRedux, al
                         {tabsData && <div className='flex-row-sb-c'>
                             {tabsData.length > 0 && tabsData.map((tab, index) => {
                                 return (
-                                    <StyledUserTab onClick={() => handleUserTabClick(tab, index)} className={`single-tab ${selectedTabIndex === index ? 'selected-tab' : 'unselected-tab'}`}>
-                                        {tab.id === 1 ? <FaUsers color={selectedTabIndex === index ? SELECTED_BLUE : ''} /> : <FaUser color={selectedTabIndex === index ? SELECTED_BLUE : ''}/>}
-                                        <p className='tabHeading'>{tab.tabHeading}</p>
-                                        <p>{tab.tabContent}</p>
-                                    </StyledUserTab>
+                                    <Tabs handleUserTabClick={handleUserTabClick} tab={tab} index={index} selectedTabIndex={selectedTabIndex} key={index}/>
                                 )
                             })}
                         </div>}
@@ -148,7 +134,8 @@ const Card = ({data, pageIndex, changeCurrentPageToShow, addInputDataToRedux, al
 
 const mapStateToProps = state => {
     return {
-        allPagesInputData: state.allPagesInputData 
+        allPagesInputData: state.allPagesInputData,
+        userData: state.userData,
     }
 }
 
@@ -157,6 +144,7 @@ const mapDispatchToProps = dispatch => {
         changeCurrentPageToShow: () => dispatch({type:'CHANGE_CURRENT_PAGE'}),
         addInputDataToRedux: data => dispatch({type:'ADD_INPUT_PAGE_DATA', payload: data}),
         addSingleCardData: data => dispatch({type:'ADD_SINGLE_CARD_INPUT', payload: {key: data.key , values: data.values}}),
+        addUserData: data => dispatch({type:'ADD_USER_DATA', payload: data})
     }
 }
 
