@@ -55,9 +55,18 @@ const Card = ({data, pageIndex, changeCurrentPageToShow, addInputDataToRedux, al
     }
 
     const handleButtonClick = () => {
+        const isMandatoryObject = {}
+
+        for(let i=0;i<inputData.length;i++){
+            if(!isMandatoryObject[inputData[i].name]) {
+                isMandatoryObject[inputData[i].name] = inputData[i].mandatory
+            }
+        }
+
         if(Object.keys(formData).length > 0) {
             for(let key in formData) {
-                if(Object.keys(formData).length < inputData.length || formData[key] === undefined || formData[key] === '') {
+                console.log('mancheck', isMandatoryObject, key)
+                if(isMandatoryObject[key] && (Object.keys(formData).length < inputData.length || formData[key] === undefined || formData[key] === '')) {
                     alert('please fill all the fields');
                     return null;
                 }
@@ -93,17 +102,20 @@ const Card = ({data, pageIndex, changeCurrentPageToShow, addInputDataToRedux, al
                 {inputData && inputData.length > 0 && inputData.map((input, index) => {
                     return (
                         <div style={{width:'fit-content', marginTop: '20px',}} key={index}>
-                            <StyledLabel htmlFor={input.name}>{input.label}</StyledLabel>
-                            <StyledInput 
-                                type={input.type}
-                                name={input.name}
-                                id={input.name}
-                                placeholder={input.placeholder}
-                                required={input.mandatory}
-                                value={formData[input.name]}
-                                onChange={handleFormInputChange}
-                                className="card-field"
-                            />
+                            <StyledLabel htmlFor={input.name}>{input.label}{!input.mandatory && <span>(optional)</span>}</StyledLabel>
+                            <div className='input-and-prefix'>
+                                {input.prefixText && <span className='prefix'>{input.prefixText}</span>}
+                                <StyledInput 
+                                    type={input.type}
+                                    name={input.name}
+                                    id={input.name}
+                                    placeholder={input.placeholder}
+                                    required={input.mandatory}
+                                    value={formData[input.name]}
+                                    onChange={handleFormInputChange}
+                                    className="card-field"
+                                />
+                            </div>
                         </div>
                     )
                 })}

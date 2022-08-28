@@ -12,6 +12,7 @@ const initialState = {
                     mandatory: true,
                     placeholder: 'Steve Jobs',
                     name: 'fullName',
+                    prefixText: ''
                 },
                 {
                     label: 'Display Name',
@@ -19,6 +20,7 @@ const initialState = {
                     mandatory: true,
                     placeholder: 'Steve',
                     name: 'displayName',
+                    prefixText: ''
                 },
             ],
             buttonText: 'Create Workspace',
@@ -34,13 +36,15 @@ const initialState = {
                     mandatory: true,
                     placeholder: 'Eden',
                     name: 'workspaceName',
+                    prefixText: ''
                 },
                 {
                     label: 'Workspace URL',
-                    mandatory: true,
+                    mandatory: false,
                     type: 'text',
                     placeholder: 'Example',
                     name: 'workspaceUrl',
+                    prefixText: 'www.eden.com/'
                 },
             ],
             buttonText: 'Create Workspace',

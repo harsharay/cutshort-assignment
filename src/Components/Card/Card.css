@@ -33,6 +33,23 @@
     align-items: center;
 }
 
+.input-and-prefix {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 400px;
+}
+
+.prefix {
+    font-weight: 300;
+    font-size: 14px;
+    color: #999;
+    background-color: #f8f9fc;
+    border: 1px solid #eaeef5;
+    padding: 14px;
+    border-radius: 5px;
+}
+
 @media only screen and (max-width: 600px) {
     .card-root {
        width: 100%;

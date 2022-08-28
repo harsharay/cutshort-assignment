@@ -16,6 +16,11 @@ export const StyledLabel = styled.label`
     width: fit-content;
     margin-bottom: 10px;
     font-size: 14px;
+
+    & span {
+        color: #b8c2d6;
+        margin-left: 5px;
+    }
 `
 
 export const StyledButton = styled.button`
