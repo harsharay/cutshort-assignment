@@ -9,10 +9,11 @@ import Tabs from '../Tabs/Tabs';
 const Card = ({data, pageIndex, changeCurrentPageToShow, addInputDataToRedux, allPagesInputData, addSingleCardData, allData, addUserData, userData}) => {
 
     const {heading, subHeading, inputData, buttonText, tabsData, success, type} = data;
-    const [formData, setFormData] = useState({});
+    const [formData, setFormData] = useState({}); // Form data is the localcopy of the respective card's data in redux store
     const [selectedTab, setSelectedTab] = useState({});
     const [selectedTabIndex, setSelectedTabIndex] = useState(0);
 
+    // Creating card's data with the respective keys and storing into the redux state
     useEffect(() => {
             const inputNamesData = [];
             const cardName= `card${pageIndex}`
@@ -26,6 +27,7 @@ const Card = ({data, pageIndex, changeCurrentPageToShow, addInputDataToRedux, al
             addInputDataToRedux({[cardName]: inputNamesData});
     },[inputData, pageIndex]);
 
+    // Selecting the currentCard data and storing it into the formData to use in the inputs
     useEffect(() => {
         if(Object.keys(allPagesInputData).length > 0) {
                 const cardToBeSearched = `card${pageIndex}`
@@ -41,12 +43,14 @@ const Card = ({data, pageIndex, changeCurrentPageToShow, addInputDataToRedux, al
         }
     }, [pageIndex, allPagesInputData])
 
+    // Setting initial value for the user tabs in the third card
     useEffect(() => {
         if(tabsData && tabsData.length > 0) {
             handleUserTabClick(0);
         }
     },[tabsData])
 
+    // Storing the changed input into the redux store
     const handleFormInputChange = (e) => {
         const localAllInputData = JSON.parse(JSON.stringify(allPagesInputData))
         const currentCard = `card${pageIndex}`
@@ -59,10 +63,12 @@ const Card = ({data, pageIndex, changeCurrentPageToShow, addInputDataToRedux, al
             }
         }
 
-        addSingleCardData({key: currentCard, values: localAllInputData[currentCard] })
+        addSingleCardData({key: currentCard, values: localAllInputData[currentCard] }) //addSingleCardData method is to store the particular key's value in the redux store
     }
 
+    // Clicking the button on the bottom of the card
     const handleButtonClick = () => {
+        // Creating a temp object to store if the input fields inside the card are mandatory, to be checked below
         const isMandatoryObject = {}
 
         for(let i=0;i<inputData.length;i++){
@@ -71,6 +77,7 @@ const Card = ({data, pageIndex, changeCurrentPageToShow, addInputDataToRedux, al
             }
         }
 
+        // Checking if the fields are mandatory
         if(Object.keys(formData).length > 0) {
             for(let key in formData) {
                 if(isMandatoryObject[key] && (Object.keys(formData).length < inputData.length || formData[key] === undefined || formData[key] === '')) {
@@ -84,10 +91,11 @@ const Card = ({data, pageIndex, changeCurrentPageToShow, addInputDataToRedux, al
             alert("Success, onboarded")
             return null;
         }
-        addUserData(formData);
-        changeCurrentPageToShow();
+        addUserData(formData); // Storing user's data in redux store to display it later
+        changeCurrentPageToShow(); // After submitting, the new page will display based on the index
     }
 
+    // Clicking on tabs in card3
     const handleUserTabClick = index => {
         const cardName = `card${pageIndex}`
         setSelectedTabIndex(index);
@@ -115,6 +123,7 @@ const Card = ({data, pageIndex, changeCurrentPageToShow, addInputDataToRedux, al
                     </>
                 }
 
+                {/* Tabs Display */}
                 {type !== 'form' && 
                     <>
                         {tabsData && <div className='flex-row-sb-c'>
@@ -126,6 +135,7 @@ const Card = ({data, pageIndex, changeCurrentPageToShow, addInputDataToRedux, al
                         </div>}
                     </>
                 }
+                {/* Button */}
                 {buttonText && <StyledButton onClick={handleButtonClick} className="submit-button">{buttonText}</StyledButton>}
             </div>
         </div>

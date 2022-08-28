@@ -8,6 +8,7 @@ const Main = ({currentPageIndex, allPagesData}) => {
     const [pageData, setPageData] = useState(allPagesData);
     const [currentPageToShow, setCurrentPageToShow] = useState(currentPageIndex)
 
+    // Setting the index of the current page
     React.useEffect(() => {
         if(!isNaN(currentPageIndex)) {
             setCurrentPageToShow(currentPageIndex)
