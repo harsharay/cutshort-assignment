@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import {connect} from 'react-redux';
-import { StyledInput, StyledLabel, StyledButton, StyledCardHeader, StyledSubHeader } from '../../StyledComponents/styledComponents';
+import { StyledInput, StyledLabel, StyledButton, StyledCardHeader, StyledSubHeader, StyledUserTab } from '../../StyledComponents/styledComponents';
+import {FaCheck} from 'react-icons/fa'
 import "./Card.css"
 
-const Card = ({data, pageIndex, changeCurrentPageToShow, addInputDataToRedux, allPagesInputData, addSingleCardData}) => {
-    console.log('pageIndexcheck', pageIndex)
+const Card = ({data, pageIndex, changeCurrentPageToShow, addInputDataToRedux, allPagesInputData, addSingleCardData, allData}) => {
 
-    const {heading, subHeading, inputData, buttonText} = data;
-
+    const {heading, subHeading, inputData, buttonText, tabsData, success} = data;
     const [formData, setFormData] = useState({});
+    const [selectedTab, setSelectedTab] = useState({});
+    const [selectedTabIndex, setSelectedTabIndex] = useState(0);
 
     useEffect(() => {
             const inputNamesData = [];
@@ -24,11 +25,10 @@ const Card = ({data, pageIndex, changeCurrentPageToShow, addInputDataToRedux, al
     },[inputData, pageIndex]);
 
     useEffect(() => {
-        console.log('tobef', allPagesInputData)
         if(Object.keys(allPagesInputData).length > 0) {
                 const cardToBeSearched = `card${pageIndex}`
                 const finalObject = {}
-                if(allPagesInputData[cardToBeSearched] !== undefined) {
+                if(allPagesInputData[cardToBeSearched] !== undefined && allPagesInputData[cardToBeSearched].length > 0) {
                     allPagesInputData[cardToBeSearched].forEach(item => {
                         return (
                             finalObject[item.name] = item.value
@@ -55,11 +55,6 @@ const Card = ({data, pageIndex, changeCurrentPageToShow, addInputDataToRedux, al
     }
 
     const handleButtonClick = () => {
-        if(Object.keys(formData).length === 0) {
-            alert('please add data');
-            return null;
-        }
-
         if(Object.keys(formData).length > 0) {
             for(let key in formData) {
                 if(Object.keys(formData).length < inputData.length || formData[key] === undefined || formData[key] === '') {
@@ -69,11 +64,26 @@ const Card = ({data, pageIndex, changeCurrentPageToShow, addInputDataToRedux, al
             }
         }
 
+        if(pageIndex === allData.length-1) {
+            alert("Success, onboarded")
+            return null;
+        }
         changeCurrentPageToShow();
+    }
+
+    const handleUserTabClick = (tab, index) => {
+        const cardName = `card${pageIndex}`
+        setSelectedTabIndex(index);
+        setSelectedTab(tab);
+        addInputDataToRedux({[cardName]: {
+            tabIndex: index,
+            tabData: {...tab}
+        }});
     }
 
     return (
         <div className="card-root">
+            {success && <div className='success'><FaCheck/></div>}
             {/* Heading  */}
             {heading && <StyledCardHeader>{heading}</StyledCardHeader>}
             {/* Sub heading */}
@@ -96,6 +106,17 @@ const Card = ({data, pageIndex, changeCurrentPageToShow, addInputDataToRedux, al
                         </div>
                     )
                 })}
+
+                {tabsData && <div className='flex-row-sb-c'>
+                    {tabsData.length > 0 && tabsData.map((tab, index) => {
+                        return (
+                            <StyledUserTab onClick={() => handleUserTabClick(tab, index)} className={selectedTabIndex === index ? 'selected-tab' : 'unselected-tab'}>
+                                <p className='tabHeading'>{tab.tabHeading}</p>
+                                <p>{tab.tabContent}</p>
+                            </StyledUserTab>
+                        )
+                    })}
+                </div>}
                 {buttonText && <StyledButton onClick={handleButtonClick}>{buttonText}</StyledButton>}
             </div>
         </div>

@@ -22,7 +22,7 @@ const Main = ({currentPageIndex, allPagesData}) => {
             {/* Card component */}
             {/* {pageData && pageData.length > 0 && pageData.map((page, index) => { */}
                 {/* return  */}
-                {Object.keys(pageData).length > 0 && <Card data={pageData[currentPageToShow]} pageIndex={currentPageToShow}/>}
+                {Object.keys(pageData).length > 0 && <Card data={pageData[currentPageToShow]} pageIndex={currentPageToShow} allData={pageData}/>}
             {/* })} */}
         </div>
     )

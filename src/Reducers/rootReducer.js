@@ -1,7 +1,8 @@
 const initialState = {
     currentPageIndex: 0,
     allPagesData: [
-        {
+        {   
+            pageId: 0,
             heading: 'Welcome! First things first...',
             subHeading: 'You can always change later.',
             inputData: [
@@ -23,6 +24,7 @@ const initialState = {
             buttonText: 'Create Workspace',
         },
         {
+            pageId: 1,
             heading: "Let's set up a home fo all your work",
             subHeading: 'You can always create another workspace later.',
             inputData: [
@@ -44,27 +46,30 @@ const initialState = {
             buttonText: 'Create Workspace',
         },
         {
-            heading: "Let's go",
-            subHeading: 'You can always create another workspace later.',
-            inputData: [
-                {
-                    label: 'Workspace Name',
-                    type: 'text',
-                    mandatory: true,
-                    placeholder: 'Eden',
-                    name: 'workspaceName',
-                },
-                {
-                    label: 'Workspace URL',
-                    mandatory: true,
-                    type: 'text',
-                    placeholder: 'Example',
-                    name: 'workspaceUrl',
-                },
-            ],
+            pageId: 2,
+            heading: "How are you planning to use Eden?",
+            subHeading: "We'll streamline your setup experience accordingly.",
+            inputData: [],
             buttonText: 'Create Workspace',
+            tabsData: [
+                {
+                    tabHeading: 'For myself',
+                    tabContent: 'Write better. Think more clearly. Stay organized.'
+                },
+                {
+                    tabHeading: 'With my team',
+                    tabContent: 'Wikis, docs, tasks & projects, all in one place'
+                }
+            ],
         },
-        {},
+        {
+            pageId: 3,
+            heading: "Congratulations, Eren!",
+            subHeading: 'You have completed the onboarding, you can start using Eden!',
+            inputData: [],
+            buttonText: 'Launch Eden',
+            success: true,
+        },
     ],
     allPagesInputData: {},
 }
@@ -90,6 +95,12 @@ export const RootReducer = (state=initialState, action) => {
             allPagesInputData: {...state.allPagesInputData, ...{
                 [action.payload.key] : action.payload.values
             }}
+        }
+    }
+    if(action.type === 'NAVIGATE_STEPPER') {
+        return {
+            ...state,
+            currentPageIndex: action.payload
         }
     }
 

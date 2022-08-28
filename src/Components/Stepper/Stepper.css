@@ -9,6 +9,7 @@
     color: white;
     font-size: 12px;
     position: relative;
+    /* cursor: pointer; */
 }
 
 .single-stepper:not(:last-child)::after {
@@ -36,5 +37,24 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 70px;
+}
+
+.stepper-completed {
+    background-color: #664de5; 
+    color: white;
+}
+
+.stepper-pending {
+    background-color: white;
+    color: black;
+    border: 1px solid #edf1f7;
+}
+
+.selected-tab {
+    border: 1px solid #9583ed;
+}
+
+.unselected-tab {
+    border: 1px solid #edf1f7;
 }
 
